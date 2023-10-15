@@ -14,17 +14,17 @@ const HotelCard = () => {
 
    const handleAction = () => {};
    return (
-      <div className="w-full flex  gap-3 rounded-lg shadow-[5px_5px_2px_2px_#ddd] p-3  items-start relative border border-primary ">
-         <div className="w-1/3">
+      <div className="w-full flex  md:flex-row flex-col gap-3 rounded-lg shadow-[5px_5px_2px_2px_#ddd] p-3  items-start relative border border-primary ">
+         <div className="w-full md:w-1/3">
             <Image
                src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
                width={400}
                height={300}
                alt="booking"
-               className="w-full h-full object-fill "
+               className="w-full h-full object-cover rounded-md "
             ></Image>
          </div>
-         <div className="w-2/3">
+         <div className="w-full md:w-2/3">
             <div>
                <h3 className="text-lg font-semibold text-capitalize">
                   Card Name
@@ -33,8 +33,8 @@ const HotelCard = () => {
                   location
                </p>
             </div>
-            <div className="mt-3  flex gap-2 justify-between items-end">
-               <div className="flex justify-end items-start absolute top-3 right-3 gap-1 ">
+            <div className="mt-3  flex flex-row gap-2 justify-between items-end  ">
+               <div className="flex justify-end items-start absolute top-5 right-5 md:top-3 md:right-3 gap-1 ">
                   <div className="flex flex-col items-end ">
                      <h5 className="text-sm font-medium">Review Score</h5>
                      <p className="text-xs font-medium">2 reviews</p>

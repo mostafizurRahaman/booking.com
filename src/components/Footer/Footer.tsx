@@ -1,10 +1,10 @@
-
+import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
    return (
-      <footer className="py-20 md:px-10 px-5 text-normal capitalize bg-black text-white grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-center">
+      <footer className="py-20 md:px-10 px-5 text-normal capitalize bg-black text-white grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-center justify-itemscenter w-full h-[700px] md:h-auto">
          <div>
             <h1 className="text-2xl font-bold uppercase text-white">
                Booking.com
@@ -56,7 +56,7 @@ const Footer = () => {
                <li>
                   {" "}
                   <Link href="/facebook">
-                     <FaFacebook size={0}></FaFacebook>
+                     <FaFacebook size={30}></FaFacebook>
                   </Link>
                </li>
                <li>

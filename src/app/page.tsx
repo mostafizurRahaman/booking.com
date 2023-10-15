@@ -30,7 +30,7 @@ export default function Home() {
    return (
       <main className="flex min-h-screen flex-col items-center justify-between pb-10 ">
          <Banner></Banner>
-         <div className="grid grid-cols-3 items-center w-[90%] gap-3 bg-secondary px-10 rounded-full py-5 z-[99] -mt-[80px] shadow-[2px_2px_2px_2px_#ddd]">
+         <div className="grid grid-cols-1 md:grid-cols-3 items-center w-[90%] gap-3 bg-secondary px-10 rounded-md  md:rounded-full py-5 z-[99] -mt-[150px] md:-mt-[80px] shadow-[2px_2px_2px_2px_#ddd]">
             <InputText
                label="Search Keyword"
                type="text"
@@ -39,7 +39,7 @@ export default function Home() {
                onChange={handleText}
                styles="rounded-xl "
             ></InputText>
-            <div className="flex flex-col gap-[2px] px-5">
+            <div className="flex flex-col gap-[2px] md:px-5">
                <InputText
                   label="min Price"
                   type="range"
@@ -66,7 +66,7 @@ export default function Home() {
                options={["1 star", "2 star", "3 star", "4 star", "5 star"]}
             ></InputSelection>
          </div>
-         <div className="w-full grid grid-cols-2 px-10 py-10 gap-5">
+         <div className="w-full grid  grid-cols-1 md:grid-cols-2 px-10 py-10 gap-5">
             <HotelCard></HotelCard>
             <HotelCard></HotelCard>
             <HotelCard></HotelCard>
