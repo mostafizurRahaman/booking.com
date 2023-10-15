@@ -6,7 +6,6 @@ import { useGetUserQuery } from "@/redux/api/authApi";
 import { format } from "date-fns";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
-import { GrView } from "react-icons/gr";
 import { useState } from "react";
 import CommonModal from "@/components/CommonModal/CommonModal";
 const UserManagement = () => {
@@ -31,7 +30,7 @@ const UserManagement = () => {
           ]}
           containerStyles="table  bg-secondary text-center"
         >
-          {data?.map((user: any, idx: number) => (
+          {data?.data?.map((user: any, idx: number) => (
             <TableRow
               key={user?._id}
               styles={`text-xs ${idx % 2 === 1 && "bg-primary"}`}
@@ -56,7 +55,6 @@ const UserManagement = () => {
                       setShowModal(true);
                     }}
                   ></LiaEdit>
-                  {/* <GrView size={20}></GrView> */}
                 </div>
               </TableCol>
             </TableRow>
