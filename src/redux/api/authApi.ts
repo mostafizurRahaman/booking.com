@@ -1,23 +1,23 @@
 import { baseApi } from "./baseApi";
 
 const authAPI = baseApi.injectEndpoints({
-   endpoints: (build) => ({
-      userLogin: build.mutation({
-         query: (loginData) => ({
-            url: `/auth/login`,
-            method: "POST",
-            data: loginData,
-         }),
-         invalidatesTags: ["user"],
+  endpoints: (build) => ({
+    userLogin: build.mutation({
+      query: (loginData) => ({
+        url: `/auth/login`,
+        method: "POST",
+        body: loginData,
       }),
-      getUser: build.query({
-         query: () => ({
-            url: "/user/",
-            method: "GET",
-         }),
-         providesTags: ["user"],
+      invalidatesTags: ["user"],
+    }),
+    getUser: build.query({
+      query: () => ({
+        url: "/user/",
+        method: "GET",
       }),
-   }),
+      providesTags: ["user"],
+    }),
+  }),
 });
 
 export const { useUserLoginMutation, useGetUserQuery } = authAPI;
