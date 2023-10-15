@@ -12,6 +12,8 @@ const InputText = ({
    label,
    initialValue,
    styles,
+   min,
+   max
 }: InputTextProps) => {
    return (
       <div className="w-full flex flex-col gap-1">
@@ -28,6 +30,9 @@ const InputText = ({
                onChange={onChange}
                defaultValue={initialValue}
                className={`text-sm placeholder:text-gray-700 border-[1.5px]  border-gray-800 outline-none w-full h-full placeholder:capitalize  py-2 pl-1 gap-2  rounded-md  ${styles}`}
+               max={max}
+               min={min}
+               
             />
          </div>
          {error && <ErrorMessage message={error}></ErrorMessage>}

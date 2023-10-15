@@ -3,7 +3,7 @@
 import { useState, ChangeEvent } from "react";
 
 interface InputSelectionProps {
-   label: string;
+   label?: string;
    data: any;
    setData: any;
    field: string;
@@ -21,13 +21,14 @@ const InputSelection = ({
 }: InputSelectionProps) => {
    const [selected, setSelected] = useState("");
 
-   const handleSelecdtion = (e: ChangeEvent<HTMLSelectElement>) => {
+   const handleSelection = (e: ChangeEvent<HTMLSelectElement>) => {
       const items: string = e.target.value;
       const name: string = e.target.name;
-      if (!(items === "")) {
+      if (!items) {
          return;
       }
 
+      console.log(data);
       setSelected(items);
       setData({ ...data, [name]: items.trim().toLowerCase() });
       return;
@@ -40,7 +41,7 @@ const InputSelection = ({
          </label>
          <select
             className="w-full rounded-md border  border-black  -mb-1 p-2  text-black placeholder:text-black font-normal text-sm"
-            onChange={handleSelecdtion}
+            onChange={handleSelection}
             name={field}
          >
             <option className="text-xs capitalize" value="" selected>

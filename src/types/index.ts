@@ -27,10 +27,12 @@ export interface InputTextProps {
    name: string;
    onChange: ChangeEventType;
    placeholder?: string;
-   error: string;
+   error?: string;
    label?: string;
    styles?: string;
    initialValue?: any;
+   min?: number;
+   max?: number;
 }
 
 export interface loginType {

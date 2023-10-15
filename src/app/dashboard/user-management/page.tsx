@@ -6,7 +6,6 @@ import { useGetUserQuery } from "@/redux/api/authApi";
 import { format } from "date-fns";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
-import { GrView } from "react-icons/gr";
 import { useState } from "react";
 import CommonModal from "@/components/CommonModal/CommonModal";
 const UserManagement = () => {
@@ -15,7 +14,6 @@ const UserManagement = () => {
    const [selected, setSelected] = useState<any>({});
    console.log(data, isLoading, isError, error);
 
-  
    return (
       <div>
          <h2 className="text-xl font-semibold text-secondary">All users</h2>
@@ -57,7 +55,6 @@ const UserManagement = () => {
                                  setShowModal(true);
                               }}
                            ></LiaEdit>
-                           {/* <GrView size={20}></GrView> */}
                         </div>
                      </TableCol>
                   </TableRow>

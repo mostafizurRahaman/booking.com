@@ -23,7 +23,7 @@ const Index = () => {
                }`}
             >
                <Link
-                  href="/home"
+                  href="/"
                   className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
                >
                   <AiFillHome></AiFillHome>

@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import Providers from "@/redux/Provider";
+import Footer from "@/components/Footer/Footer";
 
 const roboto = Roboto_Mono({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
          <body className={roboto.className}>
             <Navbar></Navbar>
             <Providers>{children}</Providers>
+            <Footer></Footer>
          </body>
       </html>
    );
