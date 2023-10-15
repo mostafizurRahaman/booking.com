@@ -1,7 +1,4 @@
 import { getFromCookie } from "@/utiles/Cookie";
-
-// import { IGenericErrorResponse, ResponseSuccessType } from "@/types";
-
 import axios from "axios";
 
 const instance = axios.create();
@@ -21,6 +18,7 @@ instance.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
+
     return Promise.reject(error);
   }
 );
@@ -36,17 +34,7 @@ instance.interceptors.response.use(
     return responseObject;
   },
   async function (error) {
-    if (error?.response?.status === 403) {
-    } else {
-      const responseObject: any = {
-        statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong",
-        errorMessages: error?.response?.data?.message,
-      };
-      return responseObject;
-    }
-
-    // return Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 

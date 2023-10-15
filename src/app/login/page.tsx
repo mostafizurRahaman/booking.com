@@ -6,13 +6,19 @@ import { ChangeEventType, OnSubmitType, loginError, loginType } from "@/types";
 import Image from "next/image";
 import loginImage from "../../assest/login.svg";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { storeUserInfo } from "@/shared/auth.service";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/userSlice/userSlice";
 // import { baseURL } from "../../Configs/libs";
 // import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const [userLogin, { isLoading, isError, error }] = useUserLoginMutation();
   const [formData, setFormData] = useState<loginType>({
     email: "",
@@ -78,13 +84,15 @@ const Login = () => {
     const form = e.target;
 
     const res: any = await userLogin(formData);
-    console.log(res);
+    console.log(res.error);
     if (res?.data?.accessToken) {
       storeUserInfo("accessToken", res?.data?.accessToken);
+      dispatch(setUser(res.data));
+      router.push("/");
     }
-    try {
-    } catch (err: any) {
-      setErrors({ ...errors, general: err.message });
+
+    if (res?.error?.data?.success === false) {
+      setErrors({ ...errors, general: res.error.data.message });
     }
   };
   return (

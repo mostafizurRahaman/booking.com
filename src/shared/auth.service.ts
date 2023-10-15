@@ -31,6 +31,7 @@ export const isLoggedIn = () => {
 export const removeUserInfo = (key: string) => {
   const cookie = new Cookies();
   cookie.remove(key);
+  getUserInfo();
   return;
 };
 
