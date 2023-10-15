@@ -8,6 +8,7 @@ import loginImage from "../../assest/login.svg";
 import { useState } from "react";
 import Link from "next/link";
 import { useUserLoginMutation } from "@/redux/api/authApi";
+import { storeUserInfo } from "@/shared/auth.service";
 // import { baseURL } from "../../Configs/libs";
 // import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
@@ -76,7 +77,11 @@ const Login = () => {
     setErrors({ ...errors, general: "" });
     const form = e.target;
 
-    const res = await userLogin({ ...formData });
+    const res: any = await userLogin(formData);
+    console.log(res);
+    if (res?.data?.accessToken) {
+      storeUserInfo("accessToken", res?.data?.accessToken);
+    }
     try {
     } catch (err: any) {
       setErrors({ ...errors, general: err.message });

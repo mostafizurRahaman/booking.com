@@ -6,7 +6,7 @@ const authAPI = baseApi.injectEndpoints({
       query: (loginData) => ({
         url: `/auth/login`,
         method: "POST",
-        body: loginData,
+        data: loginData,
       }),
       invalidatesTags: ["user"],
     }),
