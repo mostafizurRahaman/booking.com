@@ -16,7 +16,7 @@ const DashboardPage = () => {
   const id = cookie.get("userId");
   const [showModal, setShowModal] = useState<boolean>(false);
   const { data } = useGetuserprofileQuery(id);
-
+  console.log(showModal);
   //   const {
   //     name,
   //     email,

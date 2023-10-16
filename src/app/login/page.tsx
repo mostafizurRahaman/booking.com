@@ -86,19 +86,19 @@ const Login = () => {
     const form = e.target;
 
     const res: any = await userLogin(formData);
-    const { email, name, id, role, phoneNumber } = res?.data?.isUserExist || {};
+    const { email, name, _id, role, phoneNumber } = res?.data?.data || {};
 
-    if (res?.data?.isUserExist) {
+    if (res?.data?.data) {
       cookie.set("email", email);
       cookie.set("name", name);
       cookie.set("phone", phoneNumber);
       cookie.set("role", role);
-      cookie.set("userId", id);
+      cookie.set("userId", _id);
     }
     if (res?.data?.accessToken) {
       storeUserInfo("accessToken", res?.data?.accessToken);
       console.log(res.data);
-      dispatch(setUser(res?.data?.isUserExist));
+      dispatch(setUser(res?.data?.data));
       router.push("/");
     }
 
