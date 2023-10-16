@@ -5,8 +5,8 @@ import { GrServices } from "react-icons/gr";
 const SideBar = ({ isOpen }: { isOpen: boolean }) => {
    return (
       <div
-         className={`min-w-[280px] duration-500 transition-all    top-0 h-screen bg-white  shadow-[2px_2px_2px_2px_#ddd]  ${
-            isOpen ? "  left-0 " : " absolute -left-[999px] "
+         className={`min-w-[280px] duration-500 transition-all   z-[999] top-0 h-screen bg-white  shadow-[2px_2px_2px_2px_#ddd] absolute  ${
+            isOpen ? "  left-0 " : "  -left-[999px] "
          }`}
       >
          <div className="py-7 px-5  flex flex-col gap-3">

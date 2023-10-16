@@ -9,17 +9,20 @@ import { LiaEdit } from "react-icons/lia";
 import { useState } from "react";
 import CommonModal from "@/components/CommonModal/CommonModal";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const UserManagement = () => {
   const { data = [], isLoading, isError, error } = useGetUserQuery(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>({});
   console.log(data, isLoading, isError, error);
 
+  const router = useRouter()
+
   return (
     <div>
       <div className="flex  justify-between py-2 ">
         <h2 className="text-xl font-semibold text-secondary">All users</h2>
-        <button className="btn  btn-sm btn-primary font-bold">
+        <button onClick={() => router.push('/dashboard/user-management/create-user')} className="btn  btn-sm btn-primary font-bold">
           create a user
         </button>
       </div>
