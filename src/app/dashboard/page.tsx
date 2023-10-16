@@ -16,7 +16,7 @@ const DashboardPage = () => {
   const id = cookie.get("userId");
   const [showModal, setShowModal] = useState<boolean>(false);
   const { data } = useGetuserprofileQuery(id);
-  console.log(showModal);
+
   //   const {
   //     name,
   //     email,
@@ -81,23 +81,17 @@ const DashboardPage = () => {
             <ProfileRow
               propertyName="nationality"
               propertyValue={
-                data?.preferences?.nationality
-                  ? data?.preferences?.nationality
-                  : "not set yet"
+                data?.nationality ? data?.nationality : "not set yet"
               }
             />
             <ProfileRow
               propertyName="language"
-              propertyValue={
-                data?.preferences?.language
-                  ? data?.preferences?.language
-                  : "not set yet"
-              }
+              propertyValue={data?.language ? data?.language : "not set yet"}
               containerStyles="bg-gray-200"
             />
             <ProfileRow
               propertyName="Address"
-              propertyValue={data?.address ? data?.addresss : "not set yet"}
+              propertyValue={data?.address ? data?.address : "not set yet"}
             />
           </div>
         </div>

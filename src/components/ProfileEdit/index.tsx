@@ -8,20 +8,18 @@ import InputText from "../InputBox/InputBox";
 import { uploadCouldinary } from "@/utiles/uploadCouldinary";
 import { useState } from "react";
 import Image from "next/image";
-import profileImg from "../../assest/profile.jpg";
+import profileImage from "../../assest/profile.jpg";
 import InputSelection from "../InputSelection/inputSelection";
 import SubmitButton from "../Buttons/SubmitButton";
 import { errorToJSON } from "next/dist/server/render";
 import swal from "sweetalert2";
-import {
-  useGetSingleUserQuery,
-  useGetuserprofileQuery,
-  useUpdateUserMutation,
-} from "@/redux/api/authApi";
 import Swal from "sweetalert2";
+import { useUpdateUserMutation } from "@/redux/api/authApi";
+import { useRouter } from "next/navigation";
 const ProfileEdit = ({ datas, setShow }: any) => {
+  const router = useRouter();
   const [user, setUser] = useState<any>({});
-  const [updateDate, { error, isError, isLoading }] = useUpdateUserMutation();
+  const [updateuser, { error, isError, isLoading }] = useUpdateUserMutation();
 
   const {
     name,
@@ -33,6 +31,7 @@ const ProfileEdit = ({ datas, setShow }: any) => {
     language,
     nationality,
     address,
+    _id,
   } = datas || {};
 
   const { url, public_id } = profileImg || {};
@@ -141,16 +140,20 @@ const ProfileEdit = ({ datas, setShow }: any) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
-
-    const id = datas?._id;
-    const data = {
-      id: datas?._id,
-      formData,
-    };
-    console.log(id);
-    const res: any = await updateDate(data);
+    console.log("formData", formData);
+    const res = await updateuser({ id: _id, body: formData }).unwrap();
     console.log(res);
-    console.log(error);
+    if (res?.email) {
+      Swal.fire("Good job!", "profile updated successfully", "success");
+      router.push("/dashboard");
+      setShow(false);
+    } else if (isError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "something went wrong",
+      });
+    }
   };
 
   return (
@@ -162,7 +165,9 @@ const ProfileEdit = ({ datas, setShow }: any) => {
         <div className="flex items-center justify-center">
           <Image
             src={
-              formData?.profileImg?.url ? formData?.profileImg?.url : profileImg
+              formData?.profileImg?.url
+                ? formData?.profileImg?.url
+                : profileImage
             }
             alt="image"
             width={150}
@@ -266,13 +271,14 @@ const ProfileEdit = ({ datas, setShow }: any) => {
             text="save"
             containerStyles="w-[1/2]   ml-auto lg:col-span-2"
             disabled={
-              !!errors.name ||
-              !!errors.email ||
-              !!errors.dob ||
-              !!errors.imgPublicId ||
-              !!errors.language ||
-              !!errors.nationality ||
-              !!errors.phoneNumber
+              !formData.name ||
+              !formData.address ||
+              !formData.email ||
+              !formData.dob ||
+              !formData.language ||
+              !formData.phoneNumber ||
+              !formData.nationality ||
+              !formData.profileImg.url
             }
           ></SubmitButton>
         </form>

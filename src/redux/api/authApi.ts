@@ -24,7 +24,7 @@ const authAPI = baseApi.injectEndpoints({
       query: (data) => ({
         url: `/user/my-profile/${data?.id}`,
         method: "PATCH",
-        data: data,
+        data: data.body,
       }),
       invalidatesTags: ["updateuser"],
     }),

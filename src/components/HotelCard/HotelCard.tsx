@@ -4,15 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { features } from "process";
 import ActionButton from "../Buttons/ActionButton";
+import { useRouter } from "next/navigation";
 
 const HotelCard = () => {
+   const router = useRouter()
    const featues = [
       "4 beds ( 1 twin, 3 full )",
       "free cancellation",
       "no prepayment need",
    ];
 
-   const handleAction = () => {};
+
+ 
    return (
       <div className="w-full flex  md:flex-row flex-col gap-3 rounded-lg shadow-[5px_5px_2px_2px_#ddd] p-3  items-start relative border border-primary ">
          <div className="w-full md:w-1/3">
@@ -59,7 +62,7 @@ const HotelCard = () => {
                <div className="flex flex-col gap-2 items-end">
                   <h5 className="text-2xl font-bold uppercase ">BDT 4410</h5>
                   <ActionButton
-                     handleAction={handleAction}
+                     handleAction={()=> router.push("id")}
                      containerStyles="bg-black hover:bg-primary duration-300   text-xs rounded-md text-white py-2"
                   >
                      See Availability
