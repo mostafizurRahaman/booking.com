@@ -8,7 +8,7 @@ import InputText from "../InputBox/InputBox";
 import { uploadCouldinary } from "@/utiles/uploadCouldinary";
 import { useState } from "react";
 import Image from "next/image";
-import profileImg from "../../assest/profile.jpg";
+import profileImage  from "../../assest/profile.jpg";
 import InputSelection from "../InputSelection/inputSelection";
 import SubmitButton from "../Buttons/SubmitButton";
 import { errorToJSON } from "next/dist/server/render";
@@ -162,7 +162,7 @@ const ProfileEdit = ({ datas, setShow }: any) => {
         <div className="flex items-center justify-center">
           <Image
             src={
-              formData?.profileImg?.url ? formData?.profileImg?.url : profileImg
+              formData?.profileImg?.url ? formData?.profileImg?.url : profileImage
             }
             alt="image"
             width={150}

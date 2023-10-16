@@ -7,7 +7,7 @@ import {
    TbLayoutSidebarLeftCollapse,
 } from "react-icons/tb";
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-   const [isOpen, setIsOpen] = useState<boolean>(true);
+   const [isOpen, setIsOpen] = useState<boolean>(false);
 
    return (
       <div className="flex min-h-screen relative ">
@@ -22,7 +22,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
          <div
             onClick={() => setIsOpen((prev) => !prev)}
             className={`absolute text-red-500  z-[999] text-xl font-medium hover:text-red-500 ${
-               isOpen ? " top-0 left-[250px] " : "left-20px"
+               isOpen ? " top-0 left-[220px] " : "left-20px"
             }`}
          >
             {isOpen ? (
