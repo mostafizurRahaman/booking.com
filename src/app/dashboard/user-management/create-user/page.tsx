@@ -144,6 +144,7 @@ const CreateUser = () => {
    };
    const handleSubmit: OnSubmitType = (e) => {
       e.preventDefault();
+      console.log(formData);
    };
 
    console.log(formData);
@@ -234,7 +235,8 @@ const CreateUser = () => {
                   !formData.name ||
                   !formData.email ||
                   !formData.phoneNumber ||
-                  !formData.password
+                  !formData.password ||
+                  !formData?.profileImg?.url
                }
             ></SubmitButton>
          </form>
