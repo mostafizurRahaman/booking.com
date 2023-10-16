@@ -33,7 +33,7 @@ const HotelCard = () => {
                   location
                </p>
             </div>
-            <div className="mt-3  flex flex-row gap-2 justify-between items-end  ">
+            <div className="mt-3  flex flex-row gap-1 md:gap-2 justify-between items-end  ">
                <div className="flex justify-end items-start absolute top-5 right-5 md:top-3 md:right-3 gap-1 ">
                   <div className="flex flex-col items-end ">
                      <h5 className="text-sm font-medium">Review Score</h5>
@@ -60,7 +60,7 @@ const HotelCard = () => {
                   <h5 className="text-2xl font-bold uppercase ">BDT 4410</h5>
                   <ActionButton
                      handleAction={handleAction}
-                     containerStyles="bg-black hover:bg-primary duration-300  text-xs rounded-md text-white py-2"
+                     containerStyles="bg-black hover:bg-primary duration-300   text-xs rounded-md text-white py-2"
                   >
                      See Availability
                   </ActionButton>

@@ -18,6 +18,7 @@ const Index = () => {
   const [show, setShow] = useState<boolean>(false);
   const { userId }: any = GetUserInfo();
 
+<<<<<<< HEAD
   const user: any = useAppSelector((state) => state.user.user);
   const { data } = useGetuserprofileQuery(undefined);
 
@@ -99,6 +100,13 @@ const Index = () => {
             <Link
               href="/login"
               className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
+=======
+         <div className="flex items-center   gap-3">
+            <nav
+               className={`absolute top-20 duration-500 transition-all h-screen bg-primary w-[200px] md:w-auto md:bg-transparent left-0 md:static flex flex-col z-[999]  md:flex-row justify-start px-5 md:px-0 font-medium  md:items-center gap-5 ${
+                  show ? "left-0" : "left-[-999px]"
+               }`}
+>>>>>>> fb0fdb9c1c2491f90f4d6f035daf301c6a00b153
             >
               <AiFillHome></AiFillHome>
               <span>Login</span>
