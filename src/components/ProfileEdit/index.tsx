@@ -1,8 +1,8 @@
 import {
-   ChangeEventType,
-   ImageType,
-   UserEditInfoType,
-   userEditErrorType,
+  ChangeEventType,
+  ImageType,
+  UserEditInfoType,
+  userEditErrorType,
 } from "@/types";
 import InputText from "../InputBox/InputBox";
 import { uploadCouldinary } from "@/utiles/uploadCouldinary";
@@ -12,227 +12,292 @@ import profileImg from "../../assest/profile.jpg";
 import InputSelection from "../InputSelection/inputSelection";
 import SubmitButton from "../Buttons/SubmitButton";
 import { errorToJSON } from "next/dist/server/render";
-const ProfileEdit = () => {
-   const [user, setUser] = useState<any>({});
-   const [formData, setFormData] = useState<UserEditInfoType>({
-      name: "",
-      email: "",
-      phone: "",
-      profileImage: {
-         url: "",
-         publicLink: "",
-      },
-      nationality: "",
-      language: "",
-      address: "",
-      gender: "male",
-      dob: "",
-   });
-   const [errors, setErrors] = useState({
-      name: "",
-      email: "",
-      phone: "",
-      profileImage: "",
-      imgPublicId: "",
-      nationality: "",
-      language: "",
-      address: "",
-      gender: "",
-      dob: "",
-   });
-   const handleImageUpload: ChangeEventType = async (e) => {
-      if (e.target?.files) {
-         const image = e.target.files[0];
-         const link: ImageType = await uploadCouldinary(image);
-         if (link.publicLink && link.url) {
-            setFormData({
-               ...formData,
-               profileImage: {
-                  url: link.url,
-                  publicLink: link.publicLink,
-               },
-            });
-         } else {
-            setFormData({
-               ...formData,
-               profileImage: { url: "", publicLink: "" },
-            });
-            setErrors({
-               ...errors,
-               profileImage: "please upload  image again",
-            });
-         }
-      } else {
-         setFormData({
-            ...formData,
-            profileImage: { url: "", publicLink: "" },
-         });
-         setErrors({ ...errors, profileImage: "please select an image" });
-      }
-   };
+import swal from "sweetalert2";
+import {
+  useGetSingleUserQuery,
+  useGetuserprofileQuery,
+  useUpdateUserMutation,
+} from "@/redux/api/authApi";
+import Swal from "sweetalert2";
+const ProfileEdit = ({ datas, setShow }: any) => {
+  const [user, setUser] = useState<any>({});
+  const [updateDate, { error, isError, isLoading }] = useUpdateUserMutation();
 
-   const handleName: ChangeEventType = (e) => {
-      const name = e.target.name;
-      const value = e.target.value;
-      if (!value?.length) {
-         setErrors({ ...errors, [name]: `${name} shouldn't be empty` });
-         setFormData({ ...formData, [name]: "" });
+  const { name, email, phoneNumber, profileImage, preferences, gender, dob } =
+    datas || {};
+  const { language, nationality, address } = preferences || {};
+  const { url, public_id } = profileImage || {};
+  const [formData, setFormData] = useState<UserEditInfoType>({
+    name: name,
+    email: email,
+    phoneNumber: phoneNumber,
+    profileImg: {
+      url: url,
+      public_id: public_id,
+    },
+    preferences: {
+      nationality: nationality,
+      language: language,
+      address: address,
+    },
+    gender: gender,
+    dob: dob,
+  });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    profileImage: "",
+    imgPublicId: "",
+    nationality: "",
+    language: "",
+    address: "",
+    gender: "",
+    dob: "",
+  });
+  const handleImageUpload: ChangeEventType = async (e) => {
+    if (e.target?.files) {
+      const image = e.target.files[0];
+      const link: ImageType = await uploadCouldinary(image);
+      if (link.publicLink && link.url) {
+        console.log(link);
+        setFormData({
+          ...formData,
+          profileImg: {
+            url: link.url,
+            public_id: link.publicLink,
+          },
+        });
       } else {
-         setErrors({ ...errors, [name]: `` });
-         setFormData({ ...formData, [name]: value });
+        setFormData({
+          ...formData,
+          profileImg: { url: "", public_id: "" },
+        });
+        setErrors({
+          ...errors,
+          profileImage: "please upload  image again",
+        });
       }
-   };
-   const handleEmail: ChangeEventType = (e) => {
-      const name = e?.target?.name;
-      const value = e.target.value.trim();
-      if (!value.length) {
-         setErrors({ ...errors, [name]: "email shouldn't be empty" });
-         setFormData({ ...formData, [name]: "" });
-      } else if (
-         !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
-      ) {
-         setErrors({ ...errors, [name]: "Please provide a email" });
-         setFormData({ ...formData, [name]: "" });
-      } else {
-         setErrors({ ...errors, [name]: "" });
-         setFormData({ ...formData, [name]: value });
-      }
-   };
+    } else {
+      setFormData({
+        ...formData,
+        profileImg: { url: "", public_id: "" },
+      });
+      setErrors({ ...errors, profileImage: "please select an image" });
+    }
+    console.log(formData);
+  };
 
-   const handlePhone: ChangeEventType = (e) => {
-      const phone: string = e.target.value;
-      if (phone === "") {
-         setErrors({ ...errors, phone: "phone number should't be empty" });
-         setFormData({ ...formData, phone: "" });
-      } else if (!/^(((\+|00)?880)|0)(\d){10}$/.test(phone)) {
-         setErrors({ ...errors, phone: "number should be valid" });
-         setFormData({ ...formData, phone: "" });
-      } else {
-         setErrors({ ...errors, phone: "" });
-         setFormData({ ...formData, phone: phone });
-      }
-   };
-   return (
-      <div>
-         <div className="w-[150px] h-[150px] p-1 rounded-md  border border-primary flex flex-col  justify-center">
-            {/* <label htmlFor="profile" className="text-xs block mb-3">
+  const handleName: ChangeEventType = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    if (!value?.length) {
+      setErrors({ ...errors, [name]: `${name} shouldn't be empty` });
+      setFormData({ ...formData, [name]: "" });
+    } else {
+      setErrors({ ...errors, [name]: `` });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+  const handleEmail: ChangeEventType = (e) => {
+    const name = e?.target?.name;
+    const value = e.target.value.trim();
+    if (!value.length) {
+      setErrors({ ...errors, [name]: "email shouldn't be empty" });
+      setFormData({ ...formData, [name]: "" });
+    } else if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)
+    ) {
+      setErrors({ ...errors, [name]: "Please provide a email" });
+      setFormData({ ...formData, [name]: "" });
+    } else {
+      setErrors({ ...errors, [name]: "" });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handlePhone: ChangeEventType = (e) => {
+    const phone: string = e.target.value;
+    if (phone === "") {
+      setErrors({ ...errors, phoneNumber: "phone number should't be empty" });
+      setFormData({ ...formData, phoneNumber: "" });
+    } else if (!/^(((\+|00)?880)|0)(\d){10}$/.test(phone)) {
+      setErrors({ ...errors, phoneNumber: "number should be valid" });
+      setFormData({ ...formData, phoneNumber: "" });
+    } else {
+      setErrors({ ...errors, phoneNumber: "" });
+      setFormData({ ...formData, phoneNumber: phone });
+    }
+  };
+
+  const handleEdit = async (e: any) => {
+    e.preventDefault();
+    // const ourData = {
+    //   name: formData?.name ? formData?.name : name,
+    //   email: formData?.email ? formData?.email : email,
+    //   phoneNumber: formData?.phoneNumber ? formData?.phoneNumber : phoneNumber,
+    //   profileImg: {
+    //     url: formData?.profileImg?.url ? formData?.profileImg?.url : url,
+    //     public_id: formData?.profileImg?.public_id
+    //       ? formData?.profileImg?.public_id
+    //       : public_id,
+    //   },
+    //   preferences: {
+    //     nationality: formData?.preferences?.nationality
+    //       ? formData?.preferences?.nationality
+    //       : preferences,
+    //     language: formData?.preferences?.language
+    //       ? formData?.preferences?.language
+    //       : language,
+    //     address: formData?.preferences?.address
+    //       ? formData?.preferences?.address
+    //       : address,
+    //   },
+    //   gender: formData?.gender ? formData?.gender : gender,
+    //   dob: formData?.dob ? formData?.dob : dob,
+    // };
+    const updatedData = {
+      ...formData,
+      ...datas,
+      // Assuming 'data' contains the partial data to be updated
+    };
+
+    console.log(formData);
+    // const res: any = await updateDate({ datas?._id, updateDate });
+    // console.log(res, error);
+    //   // if (res?.data?.updatedAt) {
+    //   //   Swal.fire("Good job!", "successfully updated", "success");
+    //   //   setShow(false);
+    //   // }
+    //   console.log(res?.data);
+  };
+
+  return (
+    <div>
+      <div className="w-[150px] h-[150px] p-1 rounded-md  border border-primary flex flex-col  justify-center">
+        {/* <label htmlFor="profile" className="text-xs block mb-3">
                Upload profile
             </label> */}
-            <div className="flex items-center justify-center">
-               <Image
-                  src={formData?.profileImage.url || profileImg}
-                  alt="image"
-                  width={150}
-                  height={150}
-                  className="w-[100px] h-[100px] rounded-full"
-               ></Image>
-            </div>
-            <InputText
-               type="file"
-               name="profile"
-               // label="upload profile"
-               placeholder=""
-               onChange={handleImageUpload}
-               styles="w-full border-0 text-xs border-0  flex flex-col"
-               error={errors.profileImage}
-            ></InputText>
-         </div>
-         <div>
-            <form onSubmit={() => console.log(formData)} className="grid md:grid-cols-2  grid-cols-1 gap-2 mt-5">
-               <h2 className="text-lg font-semibold  capitalize col-span-2 ">
-                  Personal Information
-               </h2>
-               <InputText
-                  type="text"
-                  name="name"
-                  label="Your name"
-                  placeholder="your name"
-                  initialValue={user.name}
-                  error={errors.name}
-                  onChange={handleName}
-               ></InputText>
-               <InputText
-                  type="email"
-                  name="email"
-                  label="Your email"
-                  placeholder="your email"
-                  initialValue={user.email}
-                  error={errors.email}
-                  onChange={handleEmail}
-               ></InputText>
-               <InputText
-                  type="text"
-                  name="phone"
-                  label="Your phone"
-                  placeholder="your phone"
-                  initialValue={user.phone}
-                  error={errors.phone}
-                  onChange={handlePhone}
-               ></InputText>
-               <InputText
-                  type="date"
-                  name="dob"
-                  label="birth day"
-                  // placeholder="your phone"
-                  // initialValue={user.phone}
-                  error={errors.dob}
-                  onChange={handleName}
-               ></InputText>
-               <h2 className="text-lg font-semibold  capitalize col-span-2 ">
-                  Preference
-               </h2>
-               <InputText
-                  type="text"
-                  name="nationality"
-                  label="Your nationality"
-                  placeholder="your nationality"
-                  initialValue={user.nationality}
-                  error={errors.nationality}
-                  onChange={handleName}
-               ></InputText>
-               <InputText
-                  type="language"
-                  name="language"
-                  label="Your language"
-                  placeholder="your language"
-                  initialValue={user.language}
-                  error={errors.language}
-                  onChange={handleName}
-               ></InputText>
-               <InputText
-                  type="text"
-                  name="address"
-                  label="Your address"
-                  placeholder="your address"
-                  initialValue={user.address}
-                  error={errors.address}
-                  onChange={handleName}
-               ></InputText>
-               <InputSelection
-                  label="Gender"
-                  data={formData}
-                  setData={setFormData}
-                  field="gender"
-                  options={["male", "female", "others"]}
-                  selectOp="select gender"
-               ></InputSelection>
-               <SubmitButton
-                  text="save"
-                  containerStyles="w-[1/2]   ml-auto md:col-span-2"
-                  disabled={
-                     !!errors.name ||
-                     !!errors.email ||
-                     !!errors.dob ||
-                     !!errors.imgPublicId ||
-                     !!errors.language ||
-                     !!errors.nationality ||
-                     !!errors.phone
-                  }
-               ></SubmitButton>
-            </form>
-         </div>
+        <div className="flex items-center justify-center">
+          <Image
+            src={
+              formData?.profileImg?.url ? formData?.profileImg?.url : profileImg
+            }
+            alt="image"
+            width={150}
+            height={150}
+            className="w-[100px] h-[100px] rounded-full"
+          ></Image>
+        </div>
+        <InputText
+          type="file"
+          name="profile"
+          // label="upload profile"
+          placeholder=""
+          onChange={handleImageUpload}
+          styles="w-full border-0 text-xs border-0  flex flex-col"
+          error={errors.profileImage}
+        ></InputText>
       </div>
-   );
+      <div>
+        <form
+          onSubmit={handleEdit}
+          className="grid md:grid-cols-2  grid-cols-1 gap-2 mt-5"
+        >
+          <h2 className="text-lg font-semibold  capitalize md:col-span-2 ">
+            Personal Information
+          </h2>
+          <InputText
+            type="text"
+            name="name"
+            label="Your name"
+            placeholder="your name"
+            initialValue={name}
+            error={errors.name}
+            onChange={handleName}
+          ></InputText>
+          <InputText
+            type="email"
+            name="email"
+            label="Your email"
+            placeholder="your email"
+            initialValue={email}
+            error={errors.email}
+            onChange={handleEmail}
+          ></InputText>
+          <InputText
+            type="text"
+            name="phone"
+            label="Your phone"
+            placeholder="your phone"
+            initialValue={phoneNumber}
+            error={errors.phoneNumber}
+            onChange={handlePhone}
+          ></InputText>
+          <InputText
+            type="date"
+            name="dob"
+            label="birth day"
+            // placeholder="your phone"
+            // initialValue={user.phone}
+            error={datas?.dob}
+            onChange={handleName}
+          ></InputText>
+          <h2 className="text-lg font-semibold  capitalize md:col-span-2 ">
+            Preference
+          </h2>
+          <InputText
+            type="text"
+            name="nationality"
+            label="Your nationality"
+            placeholder="your nationality"
+            initialValue={nationality}
+            error={errors.nationality}
+            onChange={handleName}
+          ></InputText>
+          <InputText
+            type="language"
+            name="language"
+            label="Your language"
+            placeholder="your language"
+            initialValue={language}
+            error={errors.language}
+            onChange={handleName}
+          ></InputText>
+          <InputText
+            type="text"
+            name="address"
+            label="Your address"
+            placeholder="your address"
+            initialValue={address}
+            error={errors.address}
+            onChange={handleName}
+          ></InputText>
+          <InputSelection
+            label="Gender"
+            data={formData}
+            setData={setFormData}
+            field="gender"
+            options={["male", "female", "others"]}
+            selectOp="select gender"
+          ></InputSelection>
+          <SubmitButton
+            text="save"
+            containerStyles="w-[1/2]   ml-auto md:col-span-2"
+            disabled={
+              !!errors.name ||
+              !!errors.email ||
+              !!errors.dob ||
+              !!errors.imgPublicId ||
+              !!errors.language ||
+              !!errors.nationality ||
+              !!errors.phoneNumber
+            }
+          ></SubmitButton>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default ProfileEdit;

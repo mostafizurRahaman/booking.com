@@ -30,7 +30,7 @@ const UserManagement = () => {
           ]}
           containerStyles="table  bg-secondary text-center"
         >
-          {data?.data?.map((user: any, idx: number) => (
+          {data?.map((user: any, idx: number) => (
             <TableRow
               key={user?._id}
               styles={`text-xs ${idx % 2 === 1 && "bg-primary"}`}

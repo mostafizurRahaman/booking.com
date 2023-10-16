@@ -20,21 +20,39 @@ const authAPI = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["signup"],
     }),
+    updateUser: build.mutation({
+      query: (data) => ({
+        url: `/user/my-profile/${data?.id}`,
+        method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: ["updateuser"],
+    }),
     getUser: build.query({
       query: () => ({
         url: "/user/",
         method: "GET",
       }),
 
-      providesTags: ["user", "signup"],
+      providesTags: ["user", "signup", "updateuser"],
     }),
-    getuserprofile: build.query({
-      query: () => ({
-        url: `/user/my-profile/${userId}`,
+    getSingleUser: build.query({
+      query: (id) => ({
+        url: `/user/${id}`,
         method: "GET",
+        data: id,
       }),
 
-      providesTags: ["user", "signup"],
+      providesTags: ["user", "signup", "updateuser"],
+    }),
+    getuserprofile: build.query({
+      query: (id) => ({
+        url: `/user/my-profile/${id ? id : userId}`,
+        method: "GET",
+        data: id,
+      }),
+
+      providesTags: ["user", "signup", "updateuser"],
     }),
   }),
 });
@@ -43,5 +61,7 @@ export const {
   useUserLoginMutation,
   useGetUserQuery,
   usePostuserMutation,
+  useUpdateUserMutation,
   useGetuserprofileQuery,
+  useGetSingleUserQuery,
 } = authAPI;

@@ -20,7 +20,7 @@ const Index = () => {
 
   const user: any = useAppSelector((state) => state.user.user);
   const { data } = useGetuserprofileQuery(undefined);
-  console.log(data);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setUser(data));
