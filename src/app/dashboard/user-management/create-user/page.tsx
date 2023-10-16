@@ -2,8 +2,6 @@
 
 import SubmitButton from "@/components/Buttons/SubmitButton";
 import InputText from "@/components/InputBox/InputBox";
-import InputSelection from "@/components/InputSelection/inputSelection";
-import ImageUpload from "@/components/imageUpload";
 import { ChangeEventType, ImageType, OnSubmitType } from "@/types";
 import { uploadCouldinary } from "@/utiles/uploadCouldinary";
 import Image from "next/image";
