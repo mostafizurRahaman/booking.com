@@ -22,7 +22,7 @@ const DashboardPage = () => {
                   Edit
                </ActionButton>
             </div>
-            <div className=" text-xs md:text-base flex flex-col md:flex-row mt-5 items-center justify-start px-3 w-full">
+            <div className=" text-xs md:text-base flex flex-col lg:flex-row mt-5 items-center justify-start px-3 w-full">
                <div className="w-full mb-3 flex items-center justify-center  md:w-[240px]">
                   <ProfileCard
                      name="Mostafizur rahaman"

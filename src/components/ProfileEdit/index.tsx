@@ -139,7 +139,7 @@ const ProfileEdit = () => {
          </div>
          <div>
             <form onSubmit={() => console.log(formData)} className="grid md:grid-cols-2  grid-cols-1 gap-2 mt-5">
-               <h2 className="text-lg font-semibold  capitalize col-span-2 ">
+               <h2 className="text-lg font-semibold  capitalize lg:col-span-2 ">
                   Personal Information
                </h2>
                <InputText
@@ -178,7 +178,7 @@ const ProfileEdit = () => {
                   error={errors.dob}
                   onChange={handleName}
                ></InputText>
-               <h2 className="text-lg font-semibold  capitalize col-span-2 ">
+               <h2 className="text-lg font-semibold  capitalize lg:col-span-2 ">
                   Preference
                </h2>
                <InputText
@@ -218,7 +218,7 @@ const ProfileEdit = () => {
                ></InputSelection>
                <SubmitButton
                   text="save"
-                  containerStyles="w-[1/2]   ml-auto md:col-span-2"
+                  containerStyles="w-[1/2]   ml-auto lg:col-span-2"
                   disabled={
                      !!errors.name ||
                      !!errors.email ||

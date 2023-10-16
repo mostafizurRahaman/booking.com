@@ -66,7 +66,7 @@ export default function Home() {
                options={["1 star", "2 star", "3 star", "4 star", "5 star"]}
             ></InputSelection>
          </div>
-         <div className="w-full grid  grid-cols-1 md:grid-cols-2 px-10 py-10 gap-5">
+         <div className="w-full grid  grid-cols-1 md:grid-cols-2 px-5 md:px-10 py-10 gap-5">
             <HotelCard></HotelCard>
             <HotelCard></HotelCard>
             <HotelCard></HotelCard>
