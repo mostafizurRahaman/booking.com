@@ -10,14 +10,16 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import { useUserLoginMutation } from "@/redux/api/authApi";
-import { storeUserInfo } from "@/shared/auth.service";
+import { GetUserInfo, storeUserInfo } from "@/shared/auth.service";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/userSlice/userSlice";
+import Cookies from "universal-cookie";
 // import { baseURL } from "../../Configs/libs";
 // import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 
 const Login = () => {
-  const dispatch = useAppDispatch();
+  const dispatch: any = useAppDispatch();
+  const cookie = new Cookies();
   const router = useRouter();
   const [userLogin, { isLoading, isError, error }] = useUserLoginMutation();
   const [formData, setFormData] = useState<loginType>({
@@ -84,10 +86,19 @@ const Login = () => {
     const form = e.target;
 
     const res: any = await userLogin(formData);
-    console.log(res.error);
+    const { email, name, id, role, phoneNumber } = res?.data?.isUserExist;
+
+    if (res?.data?.isUserExist) {
+      cookie.set("email", email);
+      cookie.set("name", name);
+      cookie.set("phone", phoneNumber);
+      cookie.set("role", role);
+      cookie.set("userId", id);
+    }
     if (res?.data?.accessToken) {
       storeUserInfo("accessToken", res?.data?.accessToken);
-      dispatch(setUser(res.data));
+      console.log(res.data);
+      dispatch(setUser(res?.data?.isUserExist));
       router.push("/");
     }
 

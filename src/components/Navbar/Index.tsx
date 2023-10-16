@@ -7,9 +7,29 @@ import {
   AiFillCloseCircle,
 } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { GetUserInfo, removeUserInfo } from "@/shared/auth.service";
+import { useRouter } from "next/navigation";
+import userSlice, { setUser } from "@/redux/features/userSlice/userSlice";
+import { useGetuserprofileQuery } from "@/redux/api/authApi";
 const Index = () => {
+  const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
+  const { userId }: any = GetUserInfo();
+
+  const user: any = useAppSelector((state) => state.user.user);
+  const { data } = useGetuserprofileQuery(undefined);
+  console.log(data);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setUser(data));
+  }, [data]);
+  const handleLogout = () => {
+    removeUserInfo("accessToken");
+    router.push("/login");
+    dispatch(setUser({}));
+  };
   return (
     <div className="relative flex items-center justify-between h-20 bg-primary  text-black px-5  md:px-10 ">
       <Link href="/" className="text-xl font-semibold">
@@ -71,6 +91,19 @@ const Index = () => {
             <AiFillHome></AiFillHome>
             <span>FAQ</span>
           </Link>
+          {user?.email ? (
+            <button onClick={handleLogout} className="btn btn-active btn-xs">
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
+            >
+              <AiFillHome></AiFillHome>
+              <span>Login</span>
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-3  text-secondary hover:text-red-500">
           <AiOutlineShoppingCart size={20}></AiOutlineShoppingCart>
