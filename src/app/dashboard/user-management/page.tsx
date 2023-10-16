@@ -8,6 +8,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
 import { useState } from "react";
 import CommonModal from "@/components/CommonModal/CommonModal";
+import Link from "next/link";
 const UserManagement = () => {
   const { data = [], isLoading, isError, error } = useGetUserQuery(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -16,7 +17,12 @@ const UserManagement = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-secondary">All users</h2>
+      <div className="flex  justify-between py-2 ">
+        <h2 className="text-xl font-semibold text-secondary">All users</h2>
+        <button className="btn  btn-sm btn-primary font-bold">
+          create a user
+        </button>
+      </div>
       <div>
         <TableHeader
           fields={[
@@ -48,13 +54,15 @@ const UserManagement = () => {
               <TableCol styles="text-xs">
                 <div className="flex items-center justify-center gap-1">
                   <RiDeleteBin5Fill size={20}></RiDeleteBin5Fill>
-                  <LiaEdit
-                    size={20}
-                    onClick={() => {
-                      setSelected(user);
-                      setShowModal(true);
-                    }}
-                  ></LiaEdit>
+                  <Link href={`/dashboard/user-management/${user?._id}`}>
+                    <LiaEdit
+                      size={20}
+                      // onClick={() => {
+                      //   setSelected(user);
+                      //   setShowModal(true);
+                      // }}
+                    ></LiaEdit>
+                  </Link>
                 </div>
               </TableCol>
             </TableRow>

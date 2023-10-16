@@ -86,7 +86,7 @@ const Login = () => {
     const form = e.target;
 
     const res: any = await userLogin(formData);
-    const { email, name, id, role, phoneNumber } = res?.data?.isUserExist;
+    const { email, name, id, role, phoneNumber } = res?.data?.isUserExist || {};
 
     if (res?.data?.isUserExist) {
       cookie.set("email", email);

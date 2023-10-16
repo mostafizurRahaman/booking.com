@@ -23,10 +23,19 @@ const ProfileEdit = ({ datas, setShow }: any) => {
   const [user, setUser] = useState<any>({});
   const [updateDate, { error, isError, isLoading }] = useUpdateUserMutation();
 
-  const { name, email, phoneNumber, profileImage, preferences, gender, dob } =
-    datas || {};
-  const { language, nationality, address } = preferences || {};
-  const { url, public_id } = profileImage || {};
+  const {
+    name,
+    email,
+    phoneNumber,
+    profileImg,
+    gender,
+    dob,
+    language,
+    nationality,
+    address,
+  } = datas || {};
+
+  const { url, public_id } = profileImg || {};
   const [formData, setFormData] = useState<UserEditInfoType>({
     name: name,
     email: email,
@@ -35,11 +44,11 @@ const ProfileEdit = ({ datas, setShow }: any) => {
       url: url,
       public_id: public_id,
     },
-    preferences: {
-      nationality: nationality,
-      language: language,
-      address: address,
-    },
+
+    nationality: nationality,
+    language: language,
+    address: address,
+
     gender: gender,
     dob: dob,
   });
@@ -132,44 +141,16 @@ const ProfileEdit = ({ datas, setShow }: any) => {
 
   const handleEdit = async (e: any) => {
     e.preventDefault();
-    // const ourData = {
-    //   name: formData?.name ? formData?.name : name,
-    //   email: formData?.email ? formData?.email : email,
-    //   phoneNumber: formData?.phoneNumber ? formData?.phoneNumber : phoneNumber,
-    //   profileImg: {
-    //     url: formData?.profileImg?.url ? formData?.profileImg?.url : url,
-    //     public_id: formData?.profileImg?.public_id
-    //       ? formData?.profileImg?.public_id
-    //       : public_id,
-    //   },
-    //   preferences: {
-    //     nationality: formData?.preferences?.nationality
-    //       ? formData?.preferences?.nationality
-    //       : preferences,
-    //     language: formData?.preferences?.language
-    //       ? formData?.preferences?.language
-    //       : language,
-    //     address: formData?.preferences?.address
-    //       ? formData?.preferences?.address
-    //       : address,
-    //   },
-    //   gender: formData?.gender ? formData?.gender : gender,
-    //   dob: formData?.dob ? formData?.dob : dob,
-    // };
-    const updatedData = {
-      ...formData,
-      ...datas,
-      // Assuming 'data' contains the partial data to be updated
-    };
 
-    console.log(formData);
-    // const res: any = await updateDate({ datas?._id, updateDate });
-    // console.log(res, error);
-    //   // if (res?.data?.updatedAt) {
-    //   //   Swal.fire("Good job!", "successfully updated", "success");
-    //   //   setShow(false);
-    //   // }
-    //   console.log(res?.data);
+    const id = datas?._id;
+    const data = {
+      id: datas?._id,
+      formData,
+    };
+    console.log(id);
+    const res: any = await updateDate(data);
+    console.log(res);
+    console.log(error);
   };
 
   return (
@@ -204,7 +185,7 @@ const ProfileEdit = ({ datas, setShow }: any) => {
           onSubmit={handleEdit}
           className="grid md:grid-cols-2  grid-cols-1 gap-2 mt-5"
         >
-          <h2 className="text-lg font-semibold  capitalize md:col-span-2 ">
+          <h2 className="text-lg font-semibold  capitalize lg:col-span-2 ">
             Personal Information
           </h2>
           <InputText
@@ -243,7 +224,7 @@ const ProfileEdit = ({ datas, setShow }: any) => {
             error={datas?.dob}
             onChange={handleName}
           ></InputText>
-          <h2 className="text-lg font-semibold  capitalize md:col-span-2 ">
+          <h2 className="text-lg font-semibold  capitalize lg:col-span-2 ">
             Preference
           </h2>
           <InputText
@@ -283,7 +264,7 @@ const ProfileEdit = ({ datas, setShow }: any) => {
           ></InputSelection>
           <SubmitButton
             text="save"
-            containerStyles="w-[1/2]   ml-auto md:col-span-2"
+            containerStyles="w-[1/2]   ml-auto lg:col-span-2"
             disabled={
               !!errors.name ||
               !!errors.email ||

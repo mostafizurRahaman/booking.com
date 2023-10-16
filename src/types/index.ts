@@ -85,11 +85,11 @@ export interface UserEditInfoType {
     url: string;
     public_id: string;
   };
-  preferences: {
-    nationality: string;
-    language: string;
-    address: string;
-  };
+
+  nationality: string;
+  language: string;
+  address: string;
+
   gender: "male" | "female" | "others";
   dob: string;
 }
