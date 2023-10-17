@@ -71,21 +71,21 @@ const Index = () => {
                   <span>Dashboard</span>
                </Link>
                <Link
-                  href="/home"
+                  href="/about-us"
                   className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
                >
                   <AiFillHome></AiFillHome>
                   <span>About Us</span>
                </Link>
                <Link
-                  href="/home"
+                  href="/blog"
                   className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
                >
                   <AiFillHome></AiFillHome>
                   <span>Blog</span>
                </Link>
                <Link
-                  href="/home"
+                  href="/faq"
                   className="flex items-center gap-2 text-secondary hover:scale-75 duration-300"
                >
                   <AiFillHome></AiFillHome>
