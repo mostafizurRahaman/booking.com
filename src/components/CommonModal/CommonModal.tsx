@@ -8,7 +8,7 @@ const CommonModal = ({
 }: {
    children: React.ReactNode;
    setShow: React.Dispatch<React.SetStateAction<boolean>>;
-   containerStyles: string;
+   containerStyles?: string;
    selected?: any;
 }) => {
    console.log(selected);
