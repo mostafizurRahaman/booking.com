@@ -1,9 +1,12 @@
+import { useGetUserQuery } from "@/redux/api/authApi";
+
 const AboutUs = () => {
-   return (
-      <div>
-         <h1>About Us Page</h1>A
-      </div>
-   );
+  const { data } = useGetUserQuery(undefined);
+  return (
+    <div>
+      <h1>About Us Page</h1>A
+    </div>
+  );
 };
 
 export default AboutUs;

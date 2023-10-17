@@ -1,5 +1,6 @@
 import Cookies from "universal-cookie";
 import { baseApi } from "./baseApi";
+import { tagTypes } from "@/shared/tagTypes";
 const cookie = new Cookies();
 const userId = cookie.get("userId");
 const authAPI = baseApi.injectEndpoints({
@@ -10,7 +11,7 @@ const authAPI = baseApi.injectEndpoints({
         method: "POST",
         data: loginData,
       }),
-      invalidatesTags: ["user"],
+      invalidatesTags: [tagTypes.user],
     }),
     postuser: build.mutation({
       query: (signupData) => ({
@@ -18,7 +19,7 @@ const authAPI = baseApi.injectEndpoints({
         method: "POST",
         data: signupData,
       }),
-      invalidatesTags: ["signup"],
+      invalidatesTags: [tagTypes.signup],
     }),
     updateUser: build.mutation({
       query: (data) => ({
@@ -26,7 +27,7 @@ const authAPI = baseApi.injectEndpoints({
         method: "PATCH",
         data: data.body,
       }),
-      invalidatesTags: ["updateuser"],
+      invalidatesTags: [tagTypes.updateuser],
     }),
     getUser: build.query({
       query: () => ({
@@ -34,7 +35,7 @@ const authAPI = baseApi.injectEndpoints({
         method: "GET",
       }),
 
-      providesTags: ["user", "signup", "updateuser", "delete"],
+      providesTags: [tagTypes.updateuser, tagTypes.signup, tagTypes.delete],
     }),
     getSingleUser: build.query({
       query: (id) => ({
@@ -42,7 +43,7 @@ const authAPI = baseApi.injectEndpoints({
         method: "GET",
       }),
 
-      providesTags: ["user", "signup", "updateuser", "delete"],
+      providesTags: [tagTypes.updateuser, tagTypes.signup, tagTypes.delete],
     }),
     getuserprofile: build.query({
       query: (id) => ({
@@ -51,14 +52,14 @@ const authAPI = baseApi.injectEndpoints({
         data: id,
       }),
 
-      providesTags: ["user", "signup", "updateuser", "delete"],
+      providesTags: [tagTypes.updateuser, tagTypes.signup, tagTypes.delete],
     }),
     deleteuser: build.mutation({
       query: (id) => ({
         url: `/user/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["delete"],
+      invalidatesTags: [tagTypes.delete],
     }),
   }),
 });

@@ -18,7 +18,7 @@ const CreateUser = () => {
     name: "",
     email: "",
     profileImg: {
-      public_id: "",
+      publicLink: "",
       url: "",
     },
     phoneNumber: "",

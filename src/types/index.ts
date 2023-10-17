@@ -47,7 +47,7 @@ export interface loginError extends loginType {
 export interface SubmitButtonProps {
   text: string;
   containerStyles?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export interface registerType extends loginType {
