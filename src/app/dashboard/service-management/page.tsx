@@ -4,20 +4,33 @@ import TableCol from "@/components/Table/TableCol";
 import TableHeader from "@/components/Table/TableHeader";
 import TableRow from "@/components/Table/TableRow";
 // import { useGetserviceQuery } from "@/redux/api/authApi";
-import { useGetservicesQuery } from "@/redux/api/serviceApi";
+import {
+  useDeleteServiceMutation,
+  useGetservicesQuery,
+} from "@/redux/api/serviceApi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { LiaEdit } from "react-icons/lia";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 const CreateService = () => {
   const router = useRouter();
   const { data, error, isError, isLoading } = useGetservicesQuery(undefined);
   const [showModal, setShowModal] = useState(false);
-
-  const handleDelete = (id: string) => {
-    console.log(id);
+  const [deleteAservice, { error: delteError }] = useDeleteServiceMutation();
+  const handleDelete = async (id: string) => {
+    const res: any = await deleteAservice(id);
+    if (res?.data?._id) {
+      Swal.fire("Good job!", "hotel deleted", "success");
+    } else if (res?.error?.status === 400) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${res?.error?.data?.message}`,
+      });
+    }
   };
   return (
     <div>
@@ -27,7 +40,7 @@ const CreateService = () => {
           onClick={() => router.push("/dashboard/service-management/create")}
           className="btn  btn-sm btn-primary font-bold"
         >
-          create a service
+          create a building
         </button>
       </div>
       <div>
