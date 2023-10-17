@@ -2,7 +2,7 @@
 import TableCol from "@/components/Table/TableCol";
 import TableHeader from "@/components/Table/TableHeader";
 import TableRow from "@/components/Table/TableRow";
-import { useGetUserQuery } from "@/redux/api/authApi";
+import { useDeleteuserMutation, useGetUserQuery } from "@/redux/api/authApi";
 import { format } from "date-fns";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { LiaEdit } from "react-icons/lia";
@@ -10,19 +10,35 @@ import { useState } from "react";
 import CommonModal from "@/components/CommonModal/CommonModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 const UserManagement = () => {
   const { data = [], isLoading, isError, error } = useGetUserQuery(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<any>({});
   console.log(data, isLoading, isError, error);
-
-  const router = useRouter()
-
+  const [deleteuser, { isError: delteError }] = useDeleteuserMutation();
+  const router = useRouter();
+  const handleDelete = async (id: string) => {
+    const res: any = await deleteuser(id);
+    console.log(res);
+    if (res?.data?.email) {
+      Swal.fire("Good job!", "profile created", "success");
+    } else if (res?.error?.status === 400) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${res?.error?.data?.message}`,
+      });
+    }
+  };
   return (
     <div>
       <div className="flex  justify-between py-2 ">
         <h2 className="text-xl font-semibold text-secondary">All users</h2>
-        <button onClick={() => router.push('/dashboard/user-management/create-user')} className="btn  btn-sm btn-primary font-bold">
+        <button
+          onClick={() => router.push("/dashboard/user-management/create-user")}
+          className="btn  btn-sm btn-primary font-bold"
+        >
           create a user
         </button>
       </div>
@@ -56,7 +72,9 @@ const UserManagement = () => {
               </TableCol>
               <TableCol styles="text-xs">
                 <div className="flex items-center justify-center gap-1">
-                  <RiDeleteBin5Fill size={20}></RiDeleteBin5Fill>
+                  <button onClick={() => handleDelete(user?._id)}>
+                    <RiDeleteBin5Fill size={20}></RiDeleteBin5Fill>
+                  </button>
                   <Link href={`/dashboard/user-management/${user?._id}`}>
                     <LiaEdit
                       size={20}

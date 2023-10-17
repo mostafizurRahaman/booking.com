@@ -33,6 +33,7 @@ export interface InputTextProps {
   initialValue?: any;
   min?: number;
   max?: number;
+  labelStyles?: any;
 }
 
 export interface loginType {

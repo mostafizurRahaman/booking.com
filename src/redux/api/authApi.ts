@@ -34,16 +34,15 @@ const authAPI = baseApi.injectEndpoints({
         method: "GET",
       }),
 
-      providesTags: ["user", "signup", "updateuser"],
+      providesTags: ["user", "signup", "updateuser", "delete"],
     }),
     getSingleUser: build.query({
       query: (id) => ({
         url: `/user/${id}`,
         method: "GET",
-        data: id,
       }),
 
-      providesTags: ["user", "signup", "updateuser"],
+      providesTags: ["user", "signup", "updateuser", "delete"],
     }),
     getuserprofile: build.query({
       query: (id) => ({
@@ -52,7 +51,14 @@ const authAPI = baseApi.injectEndpoints({
         data: id,
       }),
 
-      providesTags: ["user", "signup", "updateuser"],
+      providesTags: ["user", "signup", "updateuser", "delete"],
+    }),
+    deleteuser: build.mutation({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["delete"],
     }),
   }),
 });
@@ -60,6 +66,7 @@ const authAPI = baseApi.injectEndpoints({
 export const {
   useUserLoginMutation,
   useGetUserQuery,
+  useDeleteuserMutation,
   usePostuserMutation,
   useUpdateUserMutation,
   useGetuserprofileQuery,
