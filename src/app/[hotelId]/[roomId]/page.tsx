@@ -9,6 +9,7 @@ import ReviewForm from "@/components/ReviewForm/ReviewForm";
 import { ChangeEventType, OnSubmitType } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
+import { FaCartPlus } from "react-icons/fa";
 
 const RoomDetails = ({ params }: { params: any }) => {
    // console.log(params.roomId);
@@ -178,12 +179,17 @@ const RoomDetails = ({ params }: { params: any }) => {
          <div className="w-[95%] my-10 mx-auto bg-secondary md:p-10 p-5 shadow-[5px_5px_5px_5px_#ddd] rounded-lg">
             <div className="flex items-center justify-between">
                <h2 className="text-xl font-bold uppercase">Room title</h2>
-               <ActionButton
-                  handleAction={() => setShowModal1(true)}
-                  containerStyles="bg-black hover:bg-primary duration-300   text-xs rounded-md text-white py-2"
-               >
-                  Book now
-               </ActionButton>
+               <div className="flex gap-3 items-center">
+                  <ActionButton handleAction={() => setShowModal1(true)}>
+                     <FaCartPlus size={30}></FaCartPlus>
+                  </ActionButton>
+                  <ActionButton
+                     handleAction={() => setShowModal1(true)}
+                     containerStyles="bg-black hover:bg-primary duration-300   text-xs rounded-md text-white py-2"
+                  >
+                     Book now
+                  </ActionButton>
+               </div>
             </div>
             <h5 className="text-2xl font-semibold">Hotel demo images</h5>
             <div className="grid  grid-cols-1 md:grid-cols-3 gap-4 my-3">
