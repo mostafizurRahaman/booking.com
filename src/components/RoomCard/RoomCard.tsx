@@ -15,8 +15,8 @@ const RoomCard = () => {
    ];
 
    return (
-      <div className="w-full flex  md:flex-row flex-col gap-3 rounded-lg shadow-[5px_5px_2px_2px_#ddd] p-3  items-start relative border border-primary ">
-         <div className="w-full md:w-1/3">
+      <div className="w-full flex  flex-col gap-3 rounded-lg shadow-[5px_5px_2px_2px_#ddd] p-3  items-start relative border border-primary ">
+         <div className="w-full ">
             <Image
                src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
                width={400}
@@ -25,7 +25,7 @@ const RoomCard = () => {
                className="w-full h-full object-cover rounded-md "
             ></Image>
          </div>
-         <div className="w-full md:w-2/3">
+         <div className="w-full ">
             <div>
                <h3 className="text-lg font-semibold text-capitalize">
                   Room Name
@@ -63,7 +63,7 @@ const RoomCard = () => {
                      handleAction={() => router.push("id/roomId")}
                      containerStyles="bg-black hover:bg-primary duration-300   text-xs rounded-md text-white py-2"
                   >
-                     book now
+                     show details
                   </ActionButton>
                </div>
             </div>

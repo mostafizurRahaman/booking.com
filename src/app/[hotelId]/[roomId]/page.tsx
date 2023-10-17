@@ -5,6 +5,7 @@ import SubmitButton from "@/components/Buttons/SubmitButton";
 import CommonModal from "@/components/CommonModal/CommonModal";
 import InputText from "@/components/InputBox/InputBox";
 import InputSelection from "@/components/InputSelection/inputSelection";
+import ReviewForm from "@/components/ReviewForm/ReviewForm";
 import { ChangeEventType, OnSubmitType } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
@@ -224,6 +225,9 @@ const RoomDetails = ({ params }: { params: any }) => {
                )}
             </div>
          </div>
+         <div className="w-[95%] py-3 p-5 rounded-md shadow-[5px_5px_5px_5px_#ddd] mb-10">
+            <ReviewForm></ReviewForm>
+         </div>
          {showModal1 && (
             <CommonModal selected="data" setShow={setShowModal1}>
                <form
@@ -334,7 +338,7 @@ const RoomDetails = ({ params }: { params: any }) => {
                      error={errors.bookingNo}
                      onChange={handleName}
                   ></InputText>
-                  <div className="cols-span-2 justify-end flex items-center">
+                  <div className="md:cols-span-2 justify-end flex items-center">
                      <SubmitButton
                         text="book"
                         disabled={
