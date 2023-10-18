@@ -22,9 +22,11 @@ import {
 } from "@/shared/enum";
 const EditService = ({ params }: any) => {
   const router = useRouter();
-  const { singleData, error, isError }: any = useGetsingleServiceQuery(
-    params?.id
-  );
+  const {
+    data: singleData,
+    error,
+    isError,
+  }: any = useGetsingleServiceQuery(params?.id);
   const {
     name,
     minPriceRange,
@@ -36,6 +38,7 @@ const EditService = ({ params }: any) => {
     locationInDetails,
     comments,
     description,
+    progresStatus,
   } = singleData || {};
 
   const [updateServices] = useUpdateserviceMutation();
@@ -160,7 +163,6 @@ const EditService = ({ params }: any) => {
           error={errors.name}
           onChange={handleName}
         ></InputText>
-
         <InputSelection
           label="category"
           labelStyles={"text-white"}
@@ -178,6 +180,15 @@ const EditService = ({ params }: any) => {
           field="location"
           options={locationOptions}
           selectOp="select location"
+        ></InputSelection>{" "}
+        <InputSelection
+          label="progresStatus"
+          labelStyles={"text-white"}
+          data={formData}
+          setData={setFormData}
+          field=""
+          options={["in progress", "upcoming"]}
+          selectOp="select progresStatus"
         ></InputSelection>
         <InputText
           type="text"
@@ -188,7 +199,6 @@ const EditService = ({ params }: any) => {
           error={errors.name}
           onChange={handleName}
         ></InputText>
-
         <InputText
           type="text"
           name="description"
@@ -262,7 +272,6 @@ const EditService = ({ params }: any) => {
             ))}
           </div>
         </div>
-
         <SubmitButton
           text="update a building"
           containerStyles="w-[1/2]   ml-auto lg:col-span-2"

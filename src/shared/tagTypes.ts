@@ -6,6 +6,11 @@ export enum tagTypes {
   createservice = "createservice",
   updateservice = "updasteservice",
   deleteservice = "deleteservice",
+  room = "room",
+  booking = "booking",
+  role = "role",
+  faq = "faq",
+  blog = "blog",
 }
 
 export const tagTypesList = [
@@ -16,4 +21,9 @@ export const tagTypesList = [
   tagTypes.createservice,
   tagTypes.updateservice,
   tagTypes.deleteservice,
+  tagTypes.room,
+  tagTypes.booking,
+  tagTypes.role,
+  tagTypes.faq,
+  tagTypes.blog,
 ];

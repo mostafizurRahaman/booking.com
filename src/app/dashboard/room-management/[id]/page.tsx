@@ -4,37 +4,58 @@ import SubmitButton from "@/components/Buttons/SubmitButton";
 import InputText from "@/components/InputBox/InputBox";
 import { ChangeEventType, ImageType, OnSubmitType } from "@/types";
 import { uploadCouldinary } from "@/utiles/uploadCouldinary";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { useCreateHotelMutation } from "@/redux/api/serviceApi";
+import {
+  useCreateHotelMutation,
+  useGetallservicesforcheckQuery,
+  useGetservicesQuery,
+} from "@/redux/api/serviceApi";
 import ImageUpload from "@/components/imageUpload";
 import InputSelection from "@/components/InputSelection/inputSelection";
 import {
   LocationEnum,
   facilitesEnum,
+  roomsCategoryEnum,
   servicecategoryEnum,
 } from "@/shared/enum";
-const CreateUser = () => {
+import {
+  useCreateAroomMutation,
+  useGetsingleroomsQuery,
+  useUpdateAroomMutation,
+} from "@/redux/api/roomsApi";
+const CreateUser = ({ params }: any) => {
   const router = useRouter();
-  const [createHotelData, { error, isLoading, isError }] =
-    useCreateHotelMutation();
+  const { data } = useGetsingleroomsQuery(params?.id);
+  const [editAroom] = useUpdateAroomMutation();
+  const {
+    title,
+    category,
+    images,
+    description,
+    pricing,
+    bedSize,
+    roomSize,
+    facilites,
+    discount,
+  }: any = data || {};
   const [formData, setFormData] = useState<any>({
-    name: "",
-    location: "",
-    locationInDetails: "",
-    images: [],
-    facilities: [],
-    description: "",
-    maxPriceRange: 0,
-    minPriceRange: 0,
-    category: "",
-    comments: "",
-    progresStatus: "",
+    title: title,
+    category: category,
+    images: images,
+    facilities: Array.isArray(data?.facilites) ? data.facilites : [],
+    description: facilites,
+    pricing: pricing,
+    bedSize: bedSize,
+    roomSize: roomSize,
+    discount: discount,
   });
+  console.log(data);
+
   const [errors, setErrors] = useState<any>({
-    name: "",
+    title: "",
     description: "",
     maxPriceRange: 0,
     minPriceRange: 0,
@@ -44,7 +65,7 @@ const CreateUser = () => {
     locationInDetails: "",
     images: "",
     facilities: "",
-    progresStatus: "",
+    discount: "",
   });
   const handleNumber = (e: any) => {
     const name = e.target.name;
@@ -78,8 +99,7 @@ const CreateUser = () => {
 
     setErrors(arr);
   };
-  const locationOptions = LocationEnum.map((location) => location);
-  const categoryOptions = servicecategoryEnum.map((options) => options);
+
   const handleName: ChangeEventType = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -91,14 +111,15 @@ const CreateUser = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-
+  const categoryOptions = roomsCategoryEnum.map((category) => category);
   const handleSubmit: OnSubmitType = async (e) => {
     e.preventDefault();
-    const res: any = await createHotelData(formData);
+
+    const res: any = await editAroom({ id: data?._id, body: formData });
     console.log("res", res);
     if (res?.data?._id) {
-      Swal.fire("Good job!", "hotel created", "success");
-      router.push("/dashboard/service-management");
+      Swal.fire("Good job!", "rooms updated", "success");
+      router.push("/dashboard/room-management");
     } else if (res?.error) {
       Swal.fire({
         icon: "error",
@@ -106,10 +127,10 @@ const CreateUser = () => {
         text: `${res?.error?.data?.message}`,
       });
     }
+
+    console.log(formData);
   };
 
-  console.log(formData);
-  console.log("errors", errors);
   return (
     <div className="flex items-center justify-center">
       <form
@@ -117,7 +138,7 @@ const CreateUser = () => {
         className="grid lg:grid-cols-2 bg-secondary grid-cols-1 gap-2 mt-5 py-7 px-5 rounded-lg w-[80%]"
       >
         <h2 className="text-lg font-semibold  capitalize lg:col-span-2 ">
-          Create A Building
+          Edit Room
         </h2>
 
         <div className="flex flex-col gap-2 lg:col-span-2">
@@ -134,16 +155,31 @@ const CreateUser = () => {
             ></ImageUpload>
           </div>
         </div>
+        {/* <div className="w-full flex flex-col gap-1">
+          <div className=" flex-col  flex  justify-start w-full gap-1">
+            <label className="text-sm font-bold">select building</label>
+            <select
+              className="select select-bordered "
+              onChange={(e) => setcode(e.target.value)}
+            >
+              {forcheck?.map((data: any) => (
+                <option key={data?.code} value={data?.code}>
+                  {data.code}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div> */}
+
         <InputText
           type="text"
-          name="name"
-          label="building name"
-          placeholder="building name here"
-          //  initialValue={name}
+          name="title"
+          label="rooms name"
+          placeholder="rooms name  here"
+          initialValue={title}
           error={errors.name}
           onChange={handleName}
         ></InputText>
-
         <InputSelection
           label="category"
           labelStyles={"text-white"}
@@ -153,31 +189,21 @@ const CreateUser = () => {
           options={categoryOptions}
           selectOp="select category"
         ></InputSelection>
-        <InputSelection
-          label="location"
-          labelStyles={"text-white"}
-          data={formData}
-          setData={setFormData}
-          field="location"
-          options={locationOptions}
-          selectOp="select location"
-        ></InputSelection>
-        <InputSelection
-          label="progresStatus"
-          labelStyles={"text-white"}
-          data={formData}
-          setData={setFormData}
-          field=""
-          options={["in progress", "upcoming"]}
-          selectOp="select progresStatus"
-        ></InputSelection>
-
         <InputText
-          type="text"
-          name="locationInDetails"
-          label="full location"
-          placeholder="building full location here"
-          //  initialValue={name}
+          type="number"
+          name="bedSize"
+          label="bed size"
+          placeholder="rooms bed sizse"
+          initialValue={bedSize}
+          error={errors.name}
+          onChange={handleName}
+        ></InputText>
+        <InputText
+          type="number"
+          name="roomSize"
+          label="full room sizse"
+          placeholder=" full room sizse here"
+          initialValue={roomSize}
           error={errors.name}
           onChange={handleName}
         ></InputText>
@@ -186,36 +212,29 @@ const CreateUser = () => {
           name="description"
           label="description"
           placeholder="description here"
-          //  initialValue={name}
+          initialValue={description}
           error={errors.name}
           onChange={handleName}
         ></InputText>
         <InputText
           type="number"
-          name="minPriceRange"
-          label="minPriceRange"
-          placeholder="minPriceRange here"
-          //  initialValue={name}
+          name="pricing"
+          label="prices"
+          placeholder="pricing here"
+          initialValue={pricing}
           error={errors.name}
           onChange={handleNumber}
         ></InputText>
         <InputText
           type="number"
-          name="maxPriceRange"
-          label="maxPriceRange"
-          placeholder="maxPriceRange here"
-          //  initialValue={name}          error={errors.name}
+          name="discount"
+          label="discount"
+          placeholder="discount here"
+          initialValue={discount}
+          error={errors.name}
           onChange={handleNumber}
         ></InputText>
-        <InputText
-          type="text"
-          name="comments"
-          label="comments"
-          placeholder="comments here"
-          //  initialValue={name}
-          error={errors.name}
-          onChange={handleName}
-        ></InputText>
+
         <div>
           <label className="font-bold">facilites</label>
           <div className="grid grid-cols-4 gap-1">
@@ -255,7 +274,7 @@ const CreateUser = () => {
         </div>
 
         <SubmitButton
-          text="create a building"
+          text="create a room"
           containerStyles="w-[1/2]   ml-auto lg:col-span-2"
         ></SubmitButton>
       </form>

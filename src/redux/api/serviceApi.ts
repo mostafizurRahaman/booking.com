@@ -20,9 +20,10 @@ const serviceapi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.updateservice],
     }),
     getservices: build.query({
-      query: () => ({
+      query: (arg) => ({
         url: "/service/",
         method: "GET",
+        params: arg,
       }),
 
       providesTags: [
@@ -34,6 +35,18 @@ const serviceapi = baseApi.injectEndpoints({
     getsingleService: build.query({
       query: (id) => ({
         url: `/service/${id}`,
+        method: "GET",
+      }),
+
+      providesTags: [
+        tagTypes.createservice,
+        tagTypes.updateservice,
+        tagTypes.deleteservice,
+      ],
+    }),
+    getallservicesforcheck: build.query({
+      query: () => ({
+        url: "/service/",
         method: "GET",
       }),
 
@@ -60,4 +73,5 @@ export const {
   useCreateHotelMutation,
   useUpdateserviceMutation,
   useDeleteServiceMutation,
+  useGetallservicesforcheckQuery,
 } = serviceapi;

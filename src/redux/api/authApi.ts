@@ -61,6 +61,14 @@ const authAPI = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.delete],
     }),
+    makeAdmin: build.mutation({
+      query: (data) => ({
+        url: `/user/manage-role/${data?.id}`,
+        method: "PATCH",
+        data: data?.body,
+      }),
+      invalidatesTags: [tagTypes.delete],
+    }),
   }),
 });
 
@@ -72,4 +80,5 @@ export const {
   useUpdateUserMutation,
   useGetuserprofileQuery,
   useGetSingleUserQuery,
+  useMakeAdminMutation,
 } = authAPI;

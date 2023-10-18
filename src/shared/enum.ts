@@ -83,3 +83,4 @@ export const facilitesEnum = [
   "Free parking",
   "Room service",
 ];
+export const roomsCategoryEnum = ["delux", "delux king", "delux twin", "3 bed"];

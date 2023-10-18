@@ -17,27 +17,47 @@ const SideBar = ({ isOpen }: { isOpen: boolean }) => {
           icon={<FaUserFriends size={20}></FaUserFriends>}
         ></SideLink>
 
-        <SideLink
-          text="Hotel Management"
-          path="/dashboard/service-management"
-          containersStyle="text-black hover:text-primary"
-          icon={<FaUserFriends size={20}></FaUserFriends>}
-        ></SideLink>
-        <SideLink
-          text="room management"
-          path="/dashboard/room-management"
-          containersStyle="text-black hover:text-primary"
-          icon={<FaUserFriends size={20}></FaUserFriends>}
-        ></SideLink>
-
         <SummeryDetails
-          path="/dashboard/content-management"
+          path="/dashboard/service-management"
           groupName="Service management"
           icon={<GrServices size={20}></GrServices>}
         >
           <SideLink
-            text="about us"
-            path="/dashboard/content-management/about-us"
+            text="Hotel Management"
+            path="/dashboard/service-management"
+            containersStyle="text-black hover:text-primary"
+            icon={<FaUserFriends size={20}></FaUserFriends>}
+          ></SideLink>
+          <SideLink
+            text="room management"
+            path="/dashboard/room-management"
+            containersStyle="text-black hover:text-primary"
+            icon={<FaUserFriends size={20}></FaUserFriends>}
+          ></SideLink>
+        </SummeryDetails>
+
+        <SideLink
+          text="booking management"
+          path="/dashboard/booking-management/"
+          containersStyle="text-black hover:text-primary"
+          icon={<GrServices size={20}></GrServices>}
+        ></SideLink>
+
+        <SideLink
+          text="admin management"
+          path="/dashboard/admin-management/"
+          containersStyle="text-black hover:text-primary"
+          icon={<GrServices size={20}></GrServices>}
+        ></SideLink>
+
+        <SummeryDetails
+          path="/dashboard/content-management"
+          groupName="content management"
+          icon={<GrServices size={20}></GrServices>}
+        >
+          <SideLink
+            text="blog"
+            path="/dashboard/content-management/blog"
             containersStyle="text-black hover:text-primary"
             icon={<FaUserFriends size={20}></FaUserFriends>}
           ></SideLink>
